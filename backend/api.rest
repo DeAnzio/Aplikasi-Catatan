@@ -1,0 +1,83 @@
+# API Testing - Aplikasi Notes
+GET http://localhost:3000/ HTTP/1.1
+
+###
+
+# GET : All Notes
+GET http://localhost:3000/api/notes HTTP/1.1
+Content-Type: application/json
+
+###
+
+# GET : Note by ID
+GET http://localhost:3000/api/notes/1 HTTP/1.1
+Content-Type: application/json
+
+###
+
+# POST : Create Note
+POST http://localhost:3000/api/notes HTTP/1.1
+Content-Type: application/json
+
+{
+  "judul": "Catatan Baru",
+  "isi": "Ini adalah isi dari catatan baru yang dibuat melalui API testing"
+}
+
+###
+
+# PUT : Update Note
+PUT http://localhost:3000/api/notes/1 HTTP/1.1
+Content-Type: application/json
+
+{
+  "judul": "Catatan Diperbarui",
+  "isi": "Ini adalah isi catatan yang telah diperbarui melalui API testing"
+}
+
+###
+
+# DELETE : Delete Note
+DELETE http://localhost:3000/api/notes/1 HTTP/1.1
+Content-Type: application/json
+
+###
+
+# POST : Create Note - Shopping List
+POST http://localhost:3000/api/notes HTTP/1.1
+Content-Type: application/json
+
+{
+  "judul": "Daftar Belanja",
+  "isi": "- Susu\n- Roti\n- Telur\n- Buah-buahan"
+}
+
+###
+
+# POST : Create Note - Meeting Notes
+POST http://localhost:3000/api/notes HTTP/1.1
+Content-Type: application/json
+
+{
+  "judul": "Catatan Rapat",
+  "isi": "Rapat dengan tim development:\n- Diskusi fitur baru\n- Timeline pengembangan\n- Testing dan deployment"
+}
+
+###
+
+# PUT : Update Note - Change ID as needed
+PUT http://localhost:3000/api/notes/2 HTTP/1.1
+Content-Type: application/json
+
+{
+  "judul": "Daftar Belanja Diperbarui",
+  "isi": "- Susu\n- Roti\n- Telur\n- Buah-buahan\n- Sayuran\n- Daging"
+}
+
+###
+
+# DELETE : Delete Note - Change ID as needed
+DELETE http://localhost:3000/api/notes/2 HTTP/1.1
+Content-Type: application/json
+
+
