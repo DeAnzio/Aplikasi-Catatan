@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tambah Catatan</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="container">
+    <div class="page-title">
+      <h1>Tambah Catatan</h1>
+      <a href="index.html" class="small">Kembali ke Menu</a>
+    </div>
+    <form id="note-form" class="note-form">
+      <input id="note-id" type="hidden" />
+      <div class="field">
+        <label for="judul">Judul</label>
+        <input id="judul" type="text" required maxlength="255" />
+      </div>
+
+      <div class="field">
+        <label for="isi">Isi</label>
+        <textarea id="isi" rows="6" required></textarea>
+      </div>
+
+      <div class="actions">
+        <button type="submit" id="submit-button">Tambah Catatan</button>
+        <button type="button" id="cancel-edit" class="secondary hidden">Batal</button>
+      </div>
+    </form>
+  </main>
+  <script src="script.js"></script>
+</body>
+</html>
