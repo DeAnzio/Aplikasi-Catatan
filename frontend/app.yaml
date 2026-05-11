@@ -1,0 +1,14 @@
+runtime: python312
+
+handlers:
+  - url: /(.*\.(css|js|html))$
+    static_files: \1
+    upload: .*\.(css|js|html)$
+
+  - url: /
+    static_files: index.html
+    upload: index.html
+
+  - url: /.*
+    static_files: index.html
+    upload: index.html

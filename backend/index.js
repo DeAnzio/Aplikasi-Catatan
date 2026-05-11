@@ -1,39 +1,68 @@
-// Import Package dan File
 const express = require("express");
+const cors = require("cors");
 const sequelize = require("./config/database");
 const userRoutes = require("./routes/userRoutes");
+require("./schema/User");
 
-// Inisialisasi Express dan Cors
 const app = express();
-const cors = require("cors");
+let databaseReady = false;
 
-// Izinkan origin frontend lokal yang umum dipakai saat development
+const defaultOrigins = [
+  "http://localhost",
+  "http://localhost:5173",
+  "http://127.0.0.1:5500",
+];
+const configuredOrigins = (process.env.FRONTEND_URL || "")
+  .split(",")
+  .map((origin) => origin.trim())
+  .filter(Boolean);
+const allowedOrigins = [...defaultOrigins, ...configuredOrigins];
+
 app.use(cors({
-  origin: ['http://localhost', 'http://localhost:5173', 'http://127.0.0.1:5500'],
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  credentials: true // Jika butuh kirim cookie/session
+  origin(origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      return callback(null, true);
+    }
+
+    return callback(new Error("Origin tidak diizinkan oleh CORS"));
+  },
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
 }));
 
-// Middleware untuk parsing JSON
 app.use(express.json());
 
-// Serve static files dari folder frontend
-app.use(express.static("../frontend"));
-
-// Route dasar untuk testing
 app.get("/", (req, res) => {
-  res.sendFile("../frontend/index.html", { root: __dirname });
-});
-
-// Setting Routes
-require("./schema/User"); // Untuk generate Tabel notes
-app.use("/api/notes", userRoutes); // Set routes notes
-
-// Sync Database dan Jalankan Server
-const port = process.env.PORT || 3000;
-sequelize.sync().then(() => {
-  console.log("Database synced");
-  app.listen(port, () => {
-    console.log(`\n✅ Server running on http://localhost:${port}\n`);
+  res.json({
+    name: "Aplikasi Catatan API",
+    status: "ok",
+    endpoints: {
+      notes: "/api/notes",
+      health: "/health",
+    },
   });
 });
+
+app.get("/health", (req, res) => {
+  res.json({
+    status: "ok",
+    database: databaseReady ? "connected" : "connecting",
+  });
+});
+
+app.use("/api/notes", userRoutes);
+
+const port = process.env.PORT || 3000;
+
+app.listen(port, () => {
+  console.log(`Server running on port ${port}`);
+});
+
+sequelize.authenticate()
+  .then(() => sequelize.sync())
+  .then(() => {
+    databaseReady = true;
+    console.log("Database synced");
+  })
+  .catch((error) => {
+    console.error("Gagal koneksi/sinkronisasi database:", error);
+  });

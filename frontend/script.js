@@ -1,5 +1,4 @@
-// Aplikasi Notes - Frontend Script
-const apiBase = 'http://localhost:3000/api/notes';
+const apiBase = window.API_BASE_URL || 'http://localhost:3000/api/notes';
 
 // Utility Functions
 function escapeHtml(text) {
