@@ -1,5 +1,6 @@
 // Aplikasi Notes - Frontend Script
-const apiBase = 'http://localhost:3000/api/notes';
+const BACKEND_URL = window.BACKEND_URL || 'http://localhost:3000';
+const apiBase = `${BACKEND_URL.replace(/\/\/+$/, '')}/api/notes`;
 
 // Utility Functions
 function escapeHtml(text) {
